@@ -1,0 +1,17 @@
+name: chembed_env
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.12
+  - pytorch
+  - pytorch-cuda=12.4
+  - torchvision
+  - torchaudio
+  - lightning
+  - numpy
+  - pip
+  - pip:
+      - -r requirements.txt

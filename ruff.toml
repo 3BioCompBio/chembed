@@ -1,0 +1,4 @@
+exclude = ["notebooks", "my_notebooks"]
+
+[lint]
+ignore = ["E731"]

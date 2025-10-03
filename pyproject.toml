@@ -1,0 +1,64 @@
+[project]
+name = "chembed"
+version = "1.0.0"
+description = "Variational AutoEncoder for learning embeddings of molecules in a chemistry-aware latent space"
+authors = [{ name = "Hugo Talibart", email = "hugo.talibart@ulb.be" }]
+keywords = ["chemistry", "vae", "selfies", "molecules", "embeddings"]
+classifiers = [
+	"Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3.12",
+	"Operating System :: OS Independent",
+	"Environment :: GPU :: NVIDIA CUDA",
+	"Intended Audience :: Science/Research",
+	"Topic :: Scientific/Engineering :: Chemistry",
+	"Topic :: Scientific/Engineering :: Bioinformatics",
+]
+
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+	"bio>=1.7.1",
+	"chembl_structure_pipeline>=1.2.2",
+	"duckdb>=1.2.1",
+	"fastparquet>=2024.5.0",
+	"h5py>=3.14.0",
+	"huggingface-hub>=0.34.4",
+	"matplotlib>=3.9.2",
+	"pandarallel>=1.6.5",
+	"pandas>=2.3.2",
+	"polars>=1.33.0",
+	"pyarrow>=17.0.0",
+	"pyyaml>=6.0.1",
+	"rdkit>=2024.3.5",
+	"requests>=2.32.3",
+	"safetensors>=0.6.2",
+	"scikit-learn>=1.5.2",
+	"scipy>=1.16.1",
+	"seaborn>=0.13.2",
+	"selfies>=2.1.2",
+	"tensorboard>=2.18.0",
+	"tensorflow>=2.18.0",
+	"torchmetrics>=1.4.0.post0",
+	"tqdm>=4.66.5"
+	]
+
+[project.urls]
+Homepage = "https://github.com/3BioCompBio/chembed"
+Documentation = "https://github.com/3BioCompBio/chembed"
+Source = "https://github.com/3BioCompBio/chembed"
+Issues = "https://github.com/3BioCompBio/chembed/issues"
+
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["chembed", "chembed.downstream"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+chembed = ["resources/*"]
+
+[project.optional-dependencies]
+dev = ["ruff"]
