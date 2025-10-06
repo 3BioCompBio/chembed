@@ -66,3 +66,11 @@ chembed = ["resources/*"]
 
 [project.optional-dependencies]
 dev = ["ruff"]
+
+[project.scripts]
+chembed-train = "chembed.train:main"
+chembed-evaluate = "chembed.evaluate:main"
+chembed-finetune = "chembed.finetune:main"
+chembed-encode = "chembed.encode:main"
+chembed-decode = "chembed.decode:main"
+chembed-generate = "chembed.generate:main"
