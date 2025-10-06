@@ -1,10 +1,14 @@
 # chembed
 ![License](https://img.shields.io/github/license/htalibart/chembed)
 
-chembed is a large-scale Variational AutoEncoder based on SELFIES inputs with a structured, chemistry-aware latent space.
+chembed is a large-scale Variational AutoEncoder based on SELFIES representations with a structured, chemistry-aware latent space for molecular encoding.
 
 ## Features
-TODO 
+- Variational Autoencoder with chemistry-aware molecular embeddings
+- Continuous latent space enabling smooth interpolation and molecule generation
+- High reconstruction accuracy
+- High validity of generated molecules
+- Supports downstream molecular optimization and drug design tasks
 
 ## Installation
 ```
@@ -138,11 +142,171 @@ print(out_df['smiles'].to_list()) # -> ['CCCCCCCCCCCCCC']
 
 
 ### From the command line
-We also include command line entry points so you can run common tasks straight from the terminal without writing any code.
-TODO
-TODO fine-tuning
+We also provide command line tools for encoding, decoding, generating, training and fine-tuning without writing Python code. By default, the [default model from HuggingFace](https://huggingface.co/3BioCompBio/chembed-default) is loaded.
 
 
+#### Encode
+Encode from SMILES:
+```
+chembed-encode --input_smiles input_smiles.smi --output embeddings.npy
+```
+
+Encode from SELFIES:
+```
+chembed-encode --input_selfies input_selfies.selfies --output embeddings.npy
+```
+
+Embeddings will be saved in numpy format if the output file ends with `.npy`, otherwise in PyTorch's own serialization format (based on pickle).
+
+If your SELFIES strings contain tokens unseen during training, an `UnknownTokenError` will be raised. You can [fine-tune the model on your own dataset](#fine-tune), or use `--replace_if_not_in_vocab` to automatically replace unseen tokens with semantically closest ones.
+
+
+#### Decode
+
+Decode to SELFIES:
+```
+chembed-decode embeddings.npy --decode_to_selfies --output output_selfies.selfies 
+```
+
+Decode to SMILES:
+```
+chembed-decode embeddings.npy --decode_to_smiles --output output_smiles.smi 
+```
+
+
+#### Generate
+```
+chembed-generate 1000 generated.csv
+```
+will generate a csv file with 1000 SELFIES and associated SMILES
+
+
+
+#### Train
+
+To train a model from scratch **without** the auxiliary property regression task:
+```
+chembed-train --train_path /path/to/train \
+            --validation_path /path/to/validation \
+            --log_dir my_logs/ \
+            --model_name my_model \
+            --dont_train_with_properties \
+            --use_precomputed_fingerprints
+```
+
+Supported formats for train and validation files: `.csv`, `.parquet` and `.pkl`.
+Each file must contain a column named `selfies` with standardized SELFIES strings (see [Data pre-processing](#data-pre-processing)). If `--use_precomputed_fingerprints`  is set, the file must include a column `fingerprint` with precomputed Morgan fingerprints. If not, a `smiles` column is required to compute them automatically (slower).
+
+
+To train **with** the auxiliary property regression task (e.g. with the same properties as in the paper):
+```
+chembed-train --train_path /path/to/train \
+            --validation_path /path/to/validation \
+            --log_dir my_logs/ \
+            --model_name my_model \
+            --properties MolWt MolLogP TPSA BertzCT Kappa1 Kappa2_clipped Kappa3_clipped \
+            --properties_statistics_path /path/to/property_statistics.json
+```
+
+`/path/to/property_statistics.json` should contain a dictionary with the mean and standard deviation for each property, e.g.:
+```
+{
+"MolLogP": {"mean": 3.15176230019694, "std": 1.840075209019122},
+"TPSA": {"mean": 66.8524829233, "std": 32.90379350253526},
+"BertzCT": {"mean": 748.3025719454026, "std": 364.6349709092715},
+"Kappa1": {"mean": 17.274857205900112, "std": 5.06249998433574},
+"Kappa2_clipped": {"mean": 7.458480283718226, "std": 2.5961259559267154},
+"Kappa3_clipped": {"mean": 4.192245061283509, "std": 2.023560920288246}
+}
+```
+
+For each `property`, the train and validation files must include a column `normalized_property` containing standardized values (i.e. subtract the mean and divide by standard deviation). See [Data pre-processing](#data-pre-processing) for generating these files.
+
+To use a custom SELFIES vocabulary, specify `--vocab /path/to/vocab.json`. If omitted, the default vocabulary (`chembed/resources/vocab.json` covering all SELFIES in the PubChem dataset) is used.
+
+
+#### Fine-tune
+
+Fine-tuning works like [training](#train): 
+```
+chembed-finetune --train_path my_training_set.csv \
+                --validation_path my_validation_set.csv \
+                --log_dir my_logs/ \
+                --model_name my_finetuned_model \
+                --vocab my_vocab.json \
+                --checkpath my_logs/my_model/version_0/last.ckpt
+```
+If ```--checkpath``` is omitted, the default model from HuggingFace is loaded.
+If provided, the vocabulary of the pre-trained model will be expanded to include new tokens from ```--vocab```
+
+
+
+
+
+#### Data pre-processing
+
+We provide multiple data processing scripts to suit different use cases.
+
+Standardize SMILES and add SELFIES to an existing SMILES dataset:
+```
+python scripts/add_selfies.py --input_file dataset.csv --output_file dataset_with_selfies.csv
+```
+
+Build a SELFIES vocabulary:
+```
+python scripts/build_vocab.py dataset_with_selfies.csv vocab.json
+```
+
+Compute molecular properties (all RDKit descriptors are supported):
+```
+python scripts/add_properties.py --input_file dataset_with_selfies.csv \
+                                --output_file dataset_with_properties.csv \
+                                --properties MolWt MolLogP TPSA BertzCT Kappa1 Kappa2 Kappa3
+```
+
+Preprocess properties (clip values, standardize, generate stats):
+```
+python scripts/preprocess_properties.py dataset_with_properties.csv dataset_with_standardized_properties.csv \
+                                        --properties_to_clip Kappa2 Kappa3 \
+                                        --properties_to_normalize MolWt MolLogP TPSA BertzCT Kappa1 Kappa2 Kappa3 \
+                                        --output_stats property_statistics.json
+```
+
+
+Split train/test:
+```
+python scripts/split_random_train_test.py dataset_with_selfies.csv --output_train my_train_set.csv --output_test my_test_set.csv
+```
+
+
+Oversample rows with rare SELFIES tokens:
+```
+python scripts/get_overall_token_counts train.csv token_counts.json
+python scripts/duplicate_samples_given_token_frequencies.py train.csv \
+                                                            --a 1e-5 \
+                                                            --token_counts token_counts.json
+```
+
+
+
+
+## Dataset
+
+The raw dataset used for training and evaluation is hosted on Zenodo: [10.5281/zenodo.17277040](https://doi.org/10.5281/zenodo.17277040). It contains standardized SMILES, SELFIES, and raw molecular property values. To process it for training:
+```
+python scripts/preprocess_properties.py train.parquet \
+                                        --properties_to_clip Kappa2 Kappa3 \
+                                        --properties MolWt MolLogP TPSA BertzCT Kappa1 Kappa2_clipped Kappa3_clipped \
+                                        --output_stats property_statistics.json
+python scripts/get_overall_token_counts train.parquet token_counts.json
+python scripts/split_random_train_test.py train.parquet \
+                                        --test_size 0.2 \
+                                        --output_train train_train.parquet \
+                                        --output_test train_validation.parquet
+python scripts/duplicate_samples_given_token_frequencies.py train_train.parquet \
+                                                            --a 1e-5 \
+                                                            --token_counts token_counts.json
+```
 
 
 ## License
@@ -160,7 +324,7 @@ If you use this method, please cite:
   title   = {Learning a chemistry-aware latent space for molecular encoding and generation with a large-scale Transformer Variational Autoencoder},
   author  = {Talibart, H. and Gilis, D.},
   journal = {Journal Name},
-  year    = {2023},
+  year    = {2025},
   volume  = {XX},
   number  = {YY},
   pages   = {ZZZ--ZZZ},
