@@ -25,5 +25,4 @@ def configure_warning_filters(action: str='default') -> None:
     warnings.filterwarnings('ignore', message=".*API of nested tensors is in prototype stage.*")
     warnings.filterwarnings('ignore', message=r"You are using `torch\.load` with `weights_only=False`")
     warnings.filterwarnings('ignore', category=DataConversionWarning, message=".*Data was converted to boolean for metric jaccard.*")
-    RDLogger.DisableLog('rdApp.warning')
-    RDLogger.DisableLog('rdApp.error')
+    RDLogger.DisableLog('rdApp.*')
