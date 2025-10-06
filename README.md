@@ -274,7 +274,7 @@ python scripts/preprocess_properties.py dataset_with_properties.csv dataset_with
 
 Precompute fingerprints:
 ```
-python scripts/precompute_fingerprints dataset_without_fingerprints.csv --output_file dataset_with_fingerprints.csv
+python scripts/precompute_fingerprints.py dataset_without_fingerprints.csv --output_file dataset_with_fingerprints.csv
 ```
 
 Split train/test:
