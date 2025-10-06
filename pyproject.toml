@@ -24,7 +24,9 @@ dependencies = [
 	"fastparquet>=2024.5.0",
 	"h5py>=3.14.0",
 	"huggingface-hub>=0.34.4",
+	"lightning>=2.4",
 	"matplotlib>=3.9.2",
+	"numpy>=2.0",
 	"pandarallel>=1.6.5",
 	"pandas>=2.3.2",
 	"polars>=1.33.0",
@@ -39,8 +41,10 @@ dependencies = [
 	"selfies>=2.1.2",
 	"tensorboard>=2.18.0",
 	"tensorflow>=2.18.0",
+	"torch>=2.4",
 	"torchmetrics>=1.4.0.post0",
-	"tqdm>=4.66.5"
+	"torchvision",
+	"tqdm>=4.66.5",
 	]
 
 [project.urls]
