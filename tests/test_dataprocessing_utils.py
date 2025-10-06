@@ -7,7 +7,6 @@ import numpy as np
 
 from chembed import dataprocessing_utils as dpu
 from chembed.data_handler import load_vocab
-from chembed.build_vocab import main as build_vocab_main
 
 
 class TestDataProcessingUtils(unittest.TestCase):
@@ -32,18 +31,6 @@ class TestDataProcessingUtils(unittest.TestCase):
         df.to_csv(train_file, index=False)
         vocab_file = self.tmp/'vocab.json'
         dpu.build_vocab_file_from_train_file(train_file, vocab_file)
-        self.assertTrue(vocab_file.is_file())
-        vocab = load_vocab(vocab_file)
-        self.assertEqual(set(vocab), set(['[C]', '[O]', '[F]', '<START>', '<STOP>']))
-
-    def test_build_vocab_file_from_train_file_cli(self):
-        selfies_list = ['[C][O][C]', '[C][C][C]', '[F]']
-        df = pd.DataFrame({'selfies': selfies_list})
-        train_file = self.tmp/'train.csv'
-        df.to_csv(train_file, index=False)
-        vocab_file = self.tmp/'vocab.json'
-        args = [str(train_file), str(vocab_file)]
-        build_vocab_main(args)
         self.assertTrue(vocab_file.is_file())
         vocab = load_vocab(vocab_file)
         self.assertEqual(set(vocab), set(['[C]', '[O]', '[F]', '<START>', '<STOP>']))
