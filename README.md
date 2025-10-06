@@ -72,7 +72,6 @@ print(decoded_smiles) # -> ['CC(=O)OC1=CC=CC=C1C(=O)O', 'CCN(CC)CC(=O)NC1=C(C)C=
 
 #### Linear interpolations in latent space
 
-See notebook TODO
 ```python
 import torch
 from chembed import checkpoint_utils
@@ -97,6 +96,7 @@ smiles_crossover = dec.decode_zs_to_smiles(z_crossover, vae)[0]
 print(smiles_crossover) # -> NC1=CC=CN1C2=NN=CC=C2C=O
 ```
 
+See notebook `notebooks/examples/latent_space_interpolation.ipynb`
 
 
 #### Fitness optimization
