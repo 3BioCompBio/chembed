@@ -13,13 +13,26 @@ chembed is a large-scale Variational AutoEncoder based on SELFIES representation
 - Supports downstream molecular optimization and drug design tasks
 
 ## Installation
+
+### From pip (recommended)
+(Available soon)
+
 ```
-conda env create -f environment.yml
-pip install .
+pip install chembed
 ```
 
-    TODO pip
-    TODO conda
+### From conda
+(Available soon)
+
+
+### From the repository (development version)
+```
+git clone https://github.com/3BioCompBio/chembed.git
+cd chembed
+conda env create -f environment.yml
+pip install -e .
+```
+
 
 ## Usage
     
