@@ -251,8 +251,8 @@ chembed-finetune --train_path my_training_set.csv \
                 --vocab my_vocab.json \
                 --checkpath my_logs/my_model/version_0/last.ckpt
 ```
-If ```--checkpath``` is omitted, the default model from HuggingFace is loaded.
-If provided, the vocabulary of the pre-trained model will be expanded to include new tokens from ```--vocab```
+If `--checkpath` is omitted, the default model from HuggingFace is loaded.
+If provided, the vocabulary of the pre-trained model will be expanded to include new tokens from `--vocab`
 
 
 
@@ -326,6 +326,14 @@ python scripts/duplicate_samples_given_token_frequencies.py train_train.parquet 
                                                             --a 1e-5 \
                                                             --token_counts token_counts.json
 ```
+
+
+
+## Support
+
+Found a bug? Have a feature request? Use the [issues tab](../../issues)!
+We welcome feedback.
+
 
 
 ## License
