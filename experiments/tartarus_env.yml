@@ -1,0 +1,42 @@
+name: tartarus_singularity_env
+channels:
+  - conda-forge
+  - defaults
+  - nvidia/label/cuda-12.1.0
+  - pyscf
+dependencies:
+  - python=3.8
+  - openbabel
+  - libgfortran=14.2
+  - xtb-python=20.2
+  - xtb==6.3.3
+  - crest==2.12
+  - pyscf
+  - gcc_linux-64
+  - gxx_linux-64
+  - mkl
+  - cudnn
+  - nvidia/label/cuda-12.1.0::cuda-toolkit
+  - pip
+  - pip:
+    - numpy
+    - selfies 
+    - pandas 
+    - scikit-learn
+    - pyarrow
+    - fastparquet
+    - rdkit
+    - chembl_structure_pipeline
+    - morfeus-ml
+    - git+https://github.com/kjelljorner/polanyi
+    - geometric
+    - pyberny
+    - h5py
+    - loguru
+    - wurlitzer
+    - sqlalchemy
+    - torch
+    - torchvision
+    - torchaudio
+    - lightning
+    - --extra-index-url https://download.pytorch.org/whl/cu118
