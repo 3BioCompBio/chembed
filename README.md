@@ -340,21 +340,3 @@ We welcome feedback.
 
 This project is licensed under the MIT License.
 See the [LICENSE](LICENSE.txt) file for details.
-
-
-
-## Citation
-
-If you use this method, please cite:
-```bibtex
-@article{talibart2025chembed,
-  title   = {Learning a chemistry-aware latent space for molecular encoding and generation with a large-scale Transformer Variational Autoencoder},
-  author  = {Talibart, H. and Gilis, D.},
-  journal = {Journal Name},
-  year    = {2025},
-  volume  = {XX},
-  number  = {YY},
-  pages   = {ZZZ--ZZZ},
-  doi     = {10.XXXX/XXXXX}
-}
-```
