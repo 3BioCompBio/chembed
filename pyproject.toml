@@ -16,6 +16,7 @@ classifiers = [
 
 readme = "README.md"
 license = "MIT"
+license-files = ['LICENSE.txt']
 requires-python = ">=3.12"
 dependencies = [
 	"bio>=1.7.1",
