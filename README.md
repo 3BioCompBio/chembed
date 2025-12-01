@@ -21,10 +21,6 @@ chembed is a large-scale Variational AutoEncoder based on SELFIES representation
 pip install chembed
 ```
 
-### From conda
-(Available soon)
-
-
 ### From the repository (development version)
 ```
 git clone https://github.com/3BioCompBio/chembed.git
