@@ -3,7 +3,10 @@
 
 chembed is a large-scale Variational AutoEncoder based on SELFIES representations with a structured, chemistry-aware latent space for molecular encoding.
 
-![Graphical abstract](graphical_abstract.png)
+<p align="center">
+  <img src="graphical_abstract.png" alt="">
+</p>
+
 
 ## Features
 - Variational Autoencoder with chemistry-aware molecular embeddings
@@ -15,7 +18,6 @@ chembed is a large-scale Variational AutoEncoder based on SELFIES representation
 ## Installation
 
 ### From pip (recommended)
-(Available soon)
 
 ```
 pip install chembed
