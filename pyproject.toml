@@ -1,6 +1,6 @@
 [project]
 name = "chembed"
-version = "1.0.0"
+version = "1.0.1"
 description = "Variational AutoEncoder for learning embeddings of molecules in a chemistry-aware latent space"
 authors = [{ name = "Hugo Talibart", email = "hugo.talibart@ulb.be" }]
 keywords = ["chemistry", "vae", "selfies", "molecules", "embeddings"]
