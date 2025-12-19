@@ -1,5 +1,5 @@
 # chembed
-![License](https://img.shields.io/github/license/3BioCompBio/chembed)
+[![PyPI version](https://badge.fury.io/py/chembed.svg)](https://pypi.org/project/chembed/) ![License](https://img.shields.io/github/license/3BioCompBio/chembed)
 
 chembed is a large-scale Variational AutoEncoder based on SELFIES representations with a structured, chemistry-aware latent space for molecular encoding.
 
