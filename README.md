@@ -333,6 +333,21 @@ Found a bug? Have a feature request? Use the [issues tab](../../issues)!
 We welcome feedback.
 
 
+## Citation
+
+If you use chembed in your research, please cite:
+```
+@article{talibart2025learning,
+  title={Learning a chemistry-aware latent space for molecular encoding and generation with a large-scale Transformer Variational Autoencoder},
+  author={Talibart, Hugo and Gilis, Dimitri},
+  journal={bioRxiv},
+  pages={2025--12},
+  year={2025},
+  publisher={Cold Spring Harbor Laboratory}
+}
+
+```
+
 
 ## License
 
