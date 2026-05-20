@@ -152,12 +152,12 @@ if __name__ == "__main__":
         # baseline but no initialization
         runs.append({'properties_loss_coefficient': 0.0, 'tanimoto_loss_coefficient': 0.0, 'kl_div_coefficient': KL_DEFAULT, 'initialize_token_embeddings': False, 'seed': seed})
 
-        # baseline with Tanimoto, no properties
+        # baseline with Tanimoto sweep, no properties
         for t in [0.2, 0.4, 0.6, 0.8, 1.0, 2.0]:
             runs.append({'properties_loss_coefficient': 0.0, 'tanimoto_loss_coefficient': t, 'kl_div_coefficient': KL_DEFAULT, 'initialize_token_embeddings': True, 'seed': seed})
 
-        # baseline with properties, no Tanimoto
-        for p in [0.0, 1.0]:
+        # baseline with beta properties sweep, no Tanimoto
+        for p in [0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 2.0]:
             runs.append({'properties_loss_coefficient': p, 'tanimoto_loss_coefficient': 0.0, 'kl_div_coefficient': KL_DEFAULT, 'initialize_token_embeddings': True, 'seed': seed})
 
         # baseline with KL sweep, Tanimoto or not, properties or not
