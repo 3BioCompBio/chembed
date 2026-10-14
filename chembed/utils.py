@@ -1,7 +1,7 @@
 from typing import List, Dict, Set, Optional, Iterable, Union
 
 from pathlib import Path
-import pkg_resources
+from importlib.resources import files
 import pandas as pd
 from fastparquet import ParquetFile
 import numpy as np
@@ -13,6 +13,7 @@ from torch import Tensor
 import pytorch_lightning as pl
 
 from chembed.mol_utils import * # noqa: F403
+
 
 def _select_columns_from_available(available_columns: List[str], required_columns: Optional[List[str]] = None, desired_columns: Optional[List[str]] = None) -> Optional[List[str]]:
     if required_columns is not None:
@@ -82,7 +83,7 @@ def write_df(df: pd.DataFrame, output_path: Path, sep: str=',') -> None:
 
 def get_resource_file(filename: str) -> Path:
     """ returns path to package resources file """
-    resource_path_str = pkg_resources.resource_filename('chembed', f'resources/{filename}')
+    resource_path_str = str(files('chembed') / 'resources' / filename)
     resource_path = Path(resource_path_str)
     if not resource_path.is_file():
         raise FileNotFoundError(resource_path_str)
